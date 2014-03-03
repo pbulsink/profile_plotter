@@ -14,19 +14,25 @@ COLOURS ={  # Colours from IEC60757
     'yellow': ['yellow', 'ye'],
     'green': ['green', 'gn'],
     'blue': ['blue', 'bl'],
+    'cyan': ['cyan', 'cy'],
     'violet': ['violet', 'purple', 'vt', 'pr'],
     'grey': ['grey', 'gray', 'gy'],
     'white': ['white', 'wh'],
     'pink': ['pink', 'pk'],
-    'turquoise': ['turquoise', 'tq']
+    'darkblue': ['dark blue', 'db'],
+    'lightblue': ['light blue', 'lb'],
+    'lime': ['lime', 'lm'],
+    'magenta': ['magenta', 'mg'],
+    'maroon': ['maroon', 'mr'],
+    'olive': ['olive', 'ov'],
     }
 UNIT_LIST=['hartrees','kj/mol', 'kcal/mol', 'ev', 'cm-1']
 CONVERSION = {
-    'hartree':[1, 2625.50, 627.51, 27.212, 219474],
-    'kj/mol' :[3.8088e-4, 1, 0.23901, 1.0364e-2, 83.593],
-    'kcal/mol': [1.5936e-3, 4.1840, 1, 4.3363e-2, 349.75],
-    'ev': [3.6749e-2, 96.485, 23.061, 1, 8065.5],
-    'cm-1': [4.5563e-6, 1.1963e-2, 2.8591e-3, 1.2398e-4, 1]
+    'hartrees':[1, 2625.50, 627.51, 27.212, 219474],
+    'kj/mol' :[0.00038088, 1, 0.23901, 0.010364, 83.593],
+    'kcal/mol': [0.0015936, 4.1840, 1, 0.043363, 349.75],
+    'ev': [0.036749, 96.485, 23.061, 1, 8065.5],
+    'cm-1': [0.0000045563, 0.011963, 0.0028591, 0.00012398, 1]
     }
 
 
@@ -42,13 +48,20 @@ class FormatError(Error):
 
     def __init__(self, expr, msg):
         self.expr = expr
-        self.msg = ""
+        self.msg = msg
+
+
+class FileAccessError(Error):
+    """Error accessing file"""
+    def __init__(self, expr, msg):
+        self.expr = expr
+        self.msg = msg
 
 
 class DimensionError(Error):
     """Error in dimensions in input
     Attributes: dim = dimensions"""
-    def __init(self, dim):
+    def __init__(self, dim):
         self.dim = dim
         self.msg = "Dimensions of {} not valid.".format(dim)
 
@@ -56,9 +69,9 @@ class DimensionError(Error):
 class UnitError(Error):
     """Error in units in input
     Attributes: unit = units"""
-    def __init(self, unit):
+    def __init__(self, unit):
         self.unit = unit
-        self.msg = "Units of {} not valid.".format(unit)
+        self.msg = "Units of {} not valid.".format(self.unit)
 
 
 def check_files_exist(filelist):
@@ -78,7 +91,6 @@ def read_clean_file(filename):
             ilines = f.readlines()
     except Exception as e:
         raise FileAccessError("Error reading file {}.".format(filename), e)
-    logging.debug('{} read successfully'.format(filename))
 
     lines = list()
     for line in ilines:
@@ -113,6 +125,15 @@ def is_int(num):
         return False
 
 
+def is_float(num):
+    """Test the input number to be a float. Return True/False"""
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+
 def is_positive_int(num):
     """Test the input to be a positive integer"""
     if is_int(num):
@@ -132,3 +153,12 @@ def convert_units(value, inunit, outunit):
         raise UnitError(outunit)
     return value * CONVERSION[inunit][UNIT_LIST.index(outunit)]
 
+
+def write_file(filename, lines):
+    """Writes a file 'filename' from lines"""
+    try:
+        with open(filename, 'w') as f:
+            for line in lines:
+                f.write(line + '\n')
+    except Exception as e:
+        raise FileAccessError("Error writing file {}.".format(filename), e)

@@ -1,0 +1,17 @@
+TestPlot
+testplot.bmp
+1200, 1200, 100
+hartrees, kj/mol
+4
+1, -101.954, 1, , black
+2, -80.21324, TS2, , black
+3, -104.1234, Int3, , black
+4, -91.912358, TS4, , black
+5, -110.0132, Int5, , black
+6, -72.2034, TS6, , black
+7, -120.993, Prod7, , black
+8, -97.12439, Int 8, 4, blue
+9, -85.93412, TS9, 8, blue
+10, -102.1423, 10, 9, blue
+11, -77.5324, TS 11, 10, blue
+12, -130.5347, 12+13, 11, blue
