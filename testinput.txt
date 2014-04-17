@@ -1,6 +1,6 @@
 TestPlot
-testplot.bmp
-1200, 1200, 100
+testplot.png
+1600, 800, 100
 hartrees, kj/mol
 4
 1, -101.954, 1, , black
@@ -15,3 +15,7 @@ hartrees, kj/mol
 10, -102.1423, 10, 9, blue
 11, -77.5324, TS 11, 10, blue
 12, -130.5347, 12+13, 11, blue
+13, -104.7823, TS14, 7, red
+14, -120.8675, 15, 13, red
+15, -118.809, TS16, 14, red
+16, -125.98, 17, 15, red

@@ -80,6 +80,14 @@ class TestSimpleFuncs(unittest.TestCase):
         """One more test with a multiplyer factor"""
         self.assertAlmostEqual(convert_units(-10, 'kj/mol', 'cm-1'), -835.93)
 
+    def test_convert_units3(self):
+        """Third test with not round numbers"""
+        self.assertAlmostEqual(convert_units(0.3, 'hartrees', 'kj/mol'), 787.65)
+
+    def test_same_convert(self):
+        """Test conversion from hartrees to hartrees"""
+        self.assertEqual(convert_units(10, 'hartrees', 'hartrees'), 10)
+
     def test_check_format(self):
         """See if check-format works"""
         self.assertEqual(check_format('jpg'), 'jpg')
@@ -115,6 +123,23 @@ class TestSimpleFuncs(unittest.TestCase):
     def test_is_float_fail(self):
         """Test the is_float function with a bad string"""
         self.assertEqual(is_float('one'), False)
+
+    def test_no_overlap(self):
+        """Test that a rectangle isn't overlapping"""
+        reca = [4, 3, 8, 5]
+        recb = [2, 2, 3, 6]
+        self.assertEqual(test_overlap(reca, recb), False)
+
+    def test_overlap(self):
+        reca = [4, 3, 8, 5]
+        recb = [5, 2, 6, 6]
+        self.assertEqual(test_overlap(reca, recb), True)
+
+    def test_overlap_backwards(self):
+        reca = [4, 3, 8, 5]
+        recb = [4, 2, 3, 6]
+        self.assertEqual(test_overlap(reca, recb), False)
+    
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

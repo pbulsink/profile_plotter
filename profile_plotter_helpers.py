@@ -134,6 +134,15 @@ def is_float(num):
         return False
 
 
+def clean_float(num):
+    """Clean out things like brackets in floats"""
+    flt = num.replace('(', '').replace(')', '').replace(' ', '')
+    if is_float(flt):
+        return float(flt)
+    else:
+        return ''
+
+
 def is_positive_int(num):
     """Test the input to be a positive integer"""
     if is_int(num):
@@ -162,3 +171,38 @@ def write_file(filename, lines):
                 f.write(line + '\n')
     except Exception as e:
         raise FileAccessError("Error writing file {}.".format(filename), e)
+
+
+def test_overlap(reca, recb):
+    """Takes in two points (reca, recb) as (x1, y1, x2, y2) and returns 
+    boolean whether they overlap rectangles or not."""
+    if not reca[0] <= reca[2]:
+        tmp = reca[0]
+        reca[0] = reca[2]
+        reca[2] = tmp
+    if not recb[0] <= recb[2]:
+        tmp = recb[0]
+        recb[0] = recb[2]
+        recb[2] = tmp
+    if recb[2] <= reca[0] or recb[0] >= recb[2]:
+        return False
+    if not reca[1] <= reca[3]:
+        tmp = reca[1]
+        reca[1] = reca[3]
+        reca[3] = tmp
+    if not recb[1] <= recb[3]:
+        tmp = recb[1]
+        recb[1] = recb[3]
+        recb[3] = tmp
+    if recb[3] <= reca[1] or recb[1] >= reca[3]:
+        return False
+    return True
+
+
+def finddelta(da, db, ddim):
+    """Finds the amound of dimension to move based on the two inputs and the
+    shared dimension width/height of each"""
+    if da < db:
+        return abs(da)+ddim-abs(db)
+    else:
+        return abs(db)+ddim-abs(da)

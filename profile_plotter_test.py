@@ -108,7 +108,7 @@ class TestPlotInfo(unittest.TestCase):
         self.plotI.parsedata(self.indata)
         self.plotI.generate_vectors()
         self.assertEqual(self.plotI.vectors[0],
-                         [[0.835, 1.165], [52510.0, 52510.0], '-', 'black', 2])
+                         [[0.835, 1.165], [0.0, 0.0], '-', 'black', 3])
 
 
     def test_generating_texts(self):
@@ -119,7 +119,7 @@ class TestPlotInfo(unittest.TestCase):
         self.plotI.parsedata(self.indata)
         self.plotI.generate_vectors()
         self.assertEqual(self.plotI.texts[0],
-                         [1, 52510.0, ' "1"', 'black', 'bottom', 'center'])
+                         [1, 2205.42, '"1"', 'black', 'bottom', 'center', 'white', False])
 
 
 class TestParseFile(unittest.TestCase):
@@ -173,12 +173,12 @@ class TestParseFile(unittest.TestCase):
     def test_plot_text(self):
         "see if text was generated ok"
         self.assertEqual(self.plot.texts[0],
-                         [1, -10.0, ' "1"', 'black', 'bottom', 'center'])
+                         [1, -7.4, '"1"', 'black', 'bottom', 'center', 'white', False])
 
     def test_plot_vectors(self):
         "see if vectors was generated ok"
         self.assertEqual(self.plot.vectors[0],
-                         [[0.835, 1.165], [-10.0, -10.0], '-', 'black', 2])
+                         [[0.835, 1.165], [-8.0, -8.0], '-', 'black', 3])
 
 
 
