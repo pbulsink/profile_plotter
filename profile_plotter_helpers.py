@@ -87,7 +87,7 @@ def check_files_exist(filelist):
 def read_clean_file(filename):
     """Reads in a file, cleaning line endings and returning a list of lines"""
     try:
-        with open(filename, 'r') as f:
+        with open(filename, 'rU') as f:
             ilines = f.readlines()
     except Exception as e:
         raise FileAccessError("Error reading file {}.".format(filename), e)

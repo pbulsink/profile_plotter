@@ -7,7 +7,6 @@
 
 from profile_plotter_helpers import *
 
-import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -31,6 +30,7 @@ class PlotEntry:
     def add_colour(self, colour):
         """
         make sure the colour is in the list and standardize the possible output
+        else return black
         """
         if colour.lower() in COLOURS:
             return colour.lower()
@@ -151,6 +151,7 @@ class PlotInfo:
     def parsedata(self, inputdata):
         """Parse the rest of the data into the Infolist"""
         self.plotdata = list()
+        #inputdata.splitlines()
         for l in inputdata:
             if l != '':
                 d = l.split(',')
@@ -163,7 +164,7 @@ class PlotInfo:
 
         if self.reference_line > len(self.plotdata):
             raise FormatError(self.reference_line,
-                              "Can't refrerence to line {}. only {} lines exist."
+                              "Can't refrerence to line {}. Only {} lines exist."
                               .format(self.reference_line, len(self.plotdata)))
         #fixing the xindex values for the datapoints, and changing energy to
         #output units
@@ -355,8 +356,7 @@ def prepare_plot(plot):
         t[1] = ax.transData.inverted().transform(bb)[0][1]
         t[4] = 'bottom'
         t[5] = 'left'
-    
-    
+
     plot.find_overlaps()
     plt.clf()
     ax = plt.subplot()
@@ -366,7 +366,7 @@ def prepare_plot(plot):
     
     for v in plot.vectors:
         ax.plot(v[0], v[1], v[2], color = v[3], lw = v[4], zorder=1)
-    
+
     for t in plot.texts:
         if t[6]:
             ax.text(t[0], t[1], t[2], color = t[3], va = t[4], ha = t[5],
@@ -395,6 +395,7 @@ def main():
 
     plot = parse_file(infile)
     prepare_plot(plot)
+    print "OK!"
     
 
 if __name__ == '__main__':
